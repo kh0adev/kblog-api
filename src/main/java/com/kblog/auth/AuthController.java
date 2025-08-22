@@ -29,15 +29,8 @@ public class AuthController {
             @RequestBody LoginRequest request) {
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(
-                request.username(),
+                request.userName(),
                 request.password());
-
-        try {
-            
-            var authenticationA = authenticationManager.authenticate(authenticationToken);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
         var authentication = authenticationManager.authenticate(authenticationToken);
 
         var token = jwtGenerator.generateToken(authentication);
