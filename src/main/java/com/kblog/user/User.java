@@ -28,6 +28,11 @@ public class User implements UserDetails {
     private String userName;
     private String password;
 
+    private String firstName;
+    private String lastName;
+    private String email;
+    private String phoneNumber;
+
     @Enumerated(EnumType.STRING)
     private UserRole role;
 

@@ -2,23 +2,26 @@ package com.kblog.auth;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.InternalAuthenticationServiceException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-public class AuthenticationController {
+@RequestMapping("/auth")
+public class AuthController {
 
-    private final JwtTokenService tokenService;
+    private final JwtGenerator jwtGenerator;
 
     private final AuthenticationManager authenticationManager;
+    private final AuthService service;
 
-    public AuthenticationController(JwtTokenService tokenService,
-            AuthenticationManager authenticationManager) {
-        this.tokenService = tokenService;
+    public AuthController(JwtGenerator tokenService,
+            AuthenticationManager authenticationManager, AuthService service) {
+        this.jwtGenerator = tokenService;
         this.authenticationManager = authenticationManager;
+        this.service = service;
     }
 
     @PostMapping("/login")
@@ -26,22 +29,29 @@ public class AuthenticationController {
             @RequestBody LoginRequest request) {
 
         var authenticationToken = new UsernamePasswordAuthenticationToken(
-                request.username(),
+                request.userName(),
                 request.password());
 
-                try {
-                    var authentication = authenticationManager.authenticate(authenticationToken);
-                } catch (InternalAuthenticationServiceException e) {
-                    e.printStackTrace(); // Log lỗi thật
-                    return ResponseEntity.status(401).body("Authentication failed: " + e.getCause().getMessage());
-                }
-
-
+        try {
+            
+            var authenticationA = authenticationManager.authenticate(authenticationToken);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         var authentication = authenticationManager.authenticate(authenticationToken);
-        var token = tokenService.generateToken(authentication);
+
+        var token = jwtGenerator.generateToken(authentication);
 
         return ResponseEntity.ok(token);
     }
 
-}
+    @PostMapping("/register")
+    public ResponseEntity register(
+            @RequestBody RegisterRequest request) {
 
+        service.register(request);
+
+        return ResponseEntity.created(null).build();
+    }
+
+}
