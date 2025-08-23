@@ -1,4 +1,4 @@
-package com.kblog.auth;
+package com.kblog.auth.dtos;
 
 public record RegisterRequest(String userName, String password, String firstName, String lastName, String email, String phoneNumber){
 

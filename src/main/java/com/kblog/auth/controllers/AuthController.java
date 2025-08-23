@@ -1,4 +1,9 @@
-package com.kblog.auth;
+package com.kblog.auth.controllers;
+
+import com.kblog.auth.dtos.LoginRequest;
+import com.kblog.auth.dtos.RegisterRequest;
+import com.kblog.auth.services.AuthService;
+import com.kblog.auth.services.JwtGenerator;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;

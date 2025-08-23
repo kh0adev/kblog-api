@@ -1,8 +1,9 @@
-package com.kblog.auth;
+package com.kblog.auth.services;
 
-import com.kblog.user.User;
-import com.kblog.user.UserRepository;
-import com.kblog.user.UserRole;
+import com.kblog.auth.dtos.RegisterRequest;
+import com.kblog.user.models.User;
+import com.kblog.user.models.UserRole;
+import com.kblog.user.repositories.UserRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;

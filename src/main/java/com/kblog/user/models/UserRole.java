@@ -1,4 +1,4 @@
-package com.kblog.user;
+package com.kblog.user.models;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

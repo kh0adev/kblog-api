@@ -1,4 +1,4 @@
-package com.kblog.user;
+package com.kblog.user.models;
 
 import java.util.Collection;
 
@@ -71,5 +71,9 @@ public class User implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
+    }
+
+    public String getFullName(){
+        return firstName + " " + lastName;
     }
 }

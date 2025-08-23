@@ -1,6 +1,6 @@
-package com.kblog.auth;
+package com.kblog.auth.services;
 
-import com.kblog.user.User;
+import com.kblog.user.models.User;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;

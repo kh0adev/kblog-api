@@ -1,7 +1,6 @@
 package com.kblog.config;
 
-import com.kblog.auth.JwtAuthConverter;
-
+import com.kblog.auth.services.JwtAuthConverter;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;

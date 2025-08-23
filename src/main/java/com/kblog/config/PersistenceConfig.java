@@ -12,9 +12,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 import java.util.Optional;
 
-import com.kblog.user.User;
-import com.kblog.user.UserRepository;
-import com.kblog.user.UserRole;
+import com.kblog.user.models.User;
+import com.kblog.user.models.UserRole;
+import com.kblog.user.repositories.UserRepository;
 
 @Configuration
 @EnableJpaAuditing(auditorAwareRef="auditorProvider")

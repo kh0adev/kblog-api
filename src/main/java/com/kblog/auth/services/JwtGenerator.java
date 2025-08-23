@@ -1,4 +1,4 @@
-package com.kblog.auth;
+package com.kblog.auth.services;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
-import com.kblog.user.User;
+import com.kblog.user.models.User;
 
 @Service
 public class JwtGenerator {

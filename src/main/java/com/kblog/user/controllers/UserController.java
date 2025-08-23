@@ -1,4 +1,4 @@
-package com.kblog.user;
+package com.kblog.user.controllers;
 
 import java.util.List;
 import java.util.Map;
