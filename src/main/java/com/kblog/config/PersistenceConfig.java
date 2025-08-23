@@ -10,14 +10,20 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import java.time.Instant;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 
+import com.kblog.post.models.Post;
+import com.kblog.post.models.PostStatus;
+import com.kblog.post.repositories.PostRepository;
 import com.kblog.user.models.User;
 import com.kblog.user.models.UserRole;
 import com.kblog.user.repositories.UserRepository;
 
 @Configuration
-@EnableJpaAuditing(auditorAwareRef="auditorProvider")
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
 public class PersistenceConfig {
 
     @Bean
@@ -32,6 +38,7 @@ public class PersistenceConfig {
 
     @Bean
     CommandLineRunner initDatabase(UserRepository appUserRepository,
+            PostRepository postRepository,
             PasswordEncoder passwordEncoder) {
         return args -> {
             User appUserA = User.builder()
@@ -39,7 +46,51 @@ public class PersistenceConfig {
                     .password(passwordEncoder.encode("test123"))
                     .role(UserRole.ADMIN).build();
 
+            User appUserB = User.builder()
+                    .userName("user123")
+                    .password(passwordEncoder.encode("user123"))
+                    .role(UserRole.USER).build();
+
+            Post post = Post.builder()
+                    .title("Test Post")
+                    .content("This is a test post")
+                    .status(PostStatus.NEW)
+                    .author(appUserB)
+                    .build();
+
+            post.setCreatedBy(appUserB);
+            post.setLastModifiedBy(appUserB);
+            post.setCreatedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+            post.setLastModifiedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+
+            Post post2 = Post.builder()
+                    .title("Test Post 2")
+                    .content("This is a test post2")
+                    .status(PostStatus.APPROVED)
+                    .author(appUserB)
+                    .build();
+
+            post2.setCreatedBy(appUserB);
+            post2.setLastModifiedBy(appUserB);
+            post2.setCreatedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+            post2.setLastModifiedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+            Post post3 = Post.builder()
+                    .title("Test Post 3")
+                    .content("This is a test post 3")
+                    .status(PostStatus.REJECTED)
+                    .author(appUserB)
+                    .build();
+
+            post3.setCreatedBy(appUserB);
+            post3.setLastModifiedBy(appUserB);
+            post3.setCreatedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+            post3.setLastModifiedDate(LocalDateTime.ofInstant(Instant.now(), ZoneId.systemDefault()));
+
             appUserRepository.save(appUserA);
+            appUserRepository.save(appUserB);
+            postRepository.save(post);
+            postRepository.save(post2);
+            postRepository.save(post3);
         };
     }
 }

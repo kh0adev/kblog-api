@@ -29,14 +29,14 @@ public class JwtGenerator {
                 .getAuthorities()
                 .stream()
                 .map(GrantedAuthority::getAuthority)
-                .collect(Collectors.joining(" "));
+                .collect(Collectors.toList());
 
         var claims = JwtClaimsSet.builder()
                 .issuer("self")
                 .issuedAt(Instant.now())
                 .expiresAt(Instant.now().plus(90, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
-                .claim("scope", scope)
+                .claim("roles", scope)
                 .claim("userId", user.getId()) 
                 .build();
 
