@@ -8,8 +8,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import lombok.extern.slf4j.Slf4j;
+
 @RestController
 @RequestMapping("/auth")
+@Slf4j
 public class AuthController {
 
     private final JwtGenerator jwtGenerator;
@@ -39,12 +42,12 @@ public class AuthController {
     }
 
     @PostMapping("/register")
-    public ResponseEntity register(
+    public ResponseEntity<Void> register(
             @RequestBody RegisterRequest request) {
 
         service.register(request);
 
-        return ResponseEntity.created(null).build();
+        return ResponseEntity.noContent().build();
     }
 
 }

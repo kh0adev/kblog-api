@@ -11,6 +11,8 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
+import com.kblog.user.User;
+
 @Service
 public class JwtGenerator {
     private final JwtEncoder jwtEncoder;
@@ -20,6 +22,8 @@ public class JwtGenerator {
     }
 
     public String generateToken(Authentication authentication) {
+
+        var user = (User) authentication.getPrincipal();
 
         var scope = authentication
                 .getAuthorities()
@@ -33,6 +37,7 @@ public class JwtGenerator {
                 .expiresAt(Instant.now().plus(90, ChronoUnit.MINUTES))
                 .subject(authentication.getName())
                 .claim("scope", scope)
+                .claim("userId", user.getId()) 
                 .build();
 
         return this.jwtEncoder
