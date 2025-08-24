@@ -11,7 +11,7 @@ import java.time.Instant;
 import java.time.temporal.ChronoUnit;
 import java.util.stream.Collectors;
 
-import com.kblog.domain.models.User;
+import com.kblog.domain.entities.User;
 
 @Service
 public class JwtGenerator {

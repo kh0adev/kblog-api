@@ -5,9 +5,9 @@ import java.net.URI;
 import com.kblog.application.dtos.PostRequest;
 import com.kblog.application.dtos.PostResponse;
 import com.kblog.application.services.PostService;
-import com.kblog.domain.models.Post;
-import com.kblog.domain.models.PostStatus;
-import com.kblog.domain.models.User;
+import com.kblog.domain.entities.Post;
+import com.kblog.domain.entities.User;
+import com.kblog.domain.enums.PostStatus;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

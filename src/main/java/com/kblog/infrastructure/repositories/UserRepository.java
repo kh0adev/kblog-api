@@ -4,7 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.Optional;
 
-import com.kblog.domain.models.User;
+import com.kblog.domain.entities.User;
 
 public interface UserRepository extends JpaRepository<User, Long> {
 

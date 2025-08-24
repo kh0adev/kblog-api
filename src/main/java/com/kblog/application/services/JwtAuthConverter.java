@@ -4,7 +4,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import com.kblog.domain.models.User;
+import com.kblog.domain.entities.User;
 
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.NonNull;

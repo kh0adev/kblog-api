@@ -15,10 +15,10 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.util.Optional;
 
-import com.kblog.domain.models.Post;
-import com.kblog.domain.models.PostStatus;
-import com.kblog.domain.models.User;
-import com.kblog.domain.models.UserRole;
+import com.kblog.domain.entities.Post;
+import com.kblog.domain.entities.User;
+import com.kblog.domain.enums.PostStatus;
+import com.kblog.domain.enums.UserRole;
 import com.kblog.infrastructure.repositories.PostRepository;
 import com.kblog.infrastructure.repositories.UserRepository;
 

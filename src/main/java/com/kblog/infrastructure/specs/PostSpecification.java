@@ -1,7 +1,7 @@
 package com.kblog.infrastructure.specs;
 
-import com.kblog.domain.models.Post;
-import com.kblog.domain.models.PostStatus;
+import com.kblog.domain.entities.Post;
+import com.kblog.domain.enums.PostStatus;
 
 import org.springframework.data.jpa.domain.Specification;
 

@@ -1,6 +1,8 @@
-package com.kblog.domain.models;
+package com.kblog.domain.entities;
 
 import java.util.Collection;
+
+import com.kblog.domain.enums.UserRole;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;

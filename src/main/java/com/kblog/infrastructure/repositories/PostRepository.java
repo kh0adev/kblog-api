@@ -1,7 +1,7 @@
 package com.kblog.infrastructure.repositories;
 
-import com.kblog.domain.models.Post;
-import com.kblog.domain.models.PostStatus;
+import com.kblog.domain.entities.Post;
+import com.kblog.domain.enums.PostStatus;
 
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;

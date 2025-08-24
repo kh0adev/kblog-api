@@ -1,5 +1,7 @@
-package com.kblog.domain.models;
+package com.kblog.domain.entities;
 
+
+import com.kblog.domain.enums.PostStatus;
 
 import org.springframework.data.jpa.domain.AbstractAuditable;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;

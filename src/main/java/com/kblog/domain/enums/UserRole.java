@@ -1,4 +1,4 @@
-package com.kblog.domain.models;
+package com.kblog.domain.enums;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

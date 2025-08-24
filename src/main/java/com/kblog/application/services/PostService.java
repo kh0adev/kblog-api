@@ -3,8 +3,8 @@ package com.kblog.application.services;
 import java.util.Optional;
 
 import com.kblog.application.dtos.PostResponse;
-import com.kblog.domain.models.Post;
-import com.kblog.domain.models.PostStatus;
+import com.kblog.domain.entities.Post;
+import com.kblog.domain.enums.PostStatus;
 import com.kblog.infrastructure.repositories.PostRepository;
 import com.kblog.infrastructure.specs.PostSpecification;
 

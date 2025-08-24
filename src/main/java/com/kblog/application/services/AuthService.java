@@ -1,8 +1,8 @@
 package com.kblog.application.services;
 
 import com.kblog.application.dtos.RegisterRequest;
-import com.kblog.domain.models.User;
-import com.kblog.domain.models.UserRole;
+import com.kblog.domain.entities.User;
+import com.kblog.domain.enums.UserRole;
 import com.kblog.infrastructure.repositories.UserRepository;
 
 import org.springframework.security.core.userdetails.UserDetails;
