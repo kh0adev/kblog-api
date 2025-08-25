@@ -104,9 +104,13 @@ spring.jpa.show-sql=true
 |--------|----------------------|--------------------------|
 | GET    | /api/posts           | Get all posts            |
 | GET    | /api/posts/{id}      | Get single post          |
+| GET    | /api/posts/own       | Get my post              |
 | POST   | /api/posts           | Create new post (auth)   |
 | PUT    | /api/posts/{id}      | Update post (auth)       |
-| DELETE | /api/posts/{id}      | Delete post (auth)       |
+| GET    | /api/posts/pending   | Get all pending posts (ADMIN)       |
+| PUT    | /api/posts/{id}/approve      | Approve post (ADMIN)       |
+| PUT    | /api/posts/{id}/reject      | Reject post (ADMIN)       |
+| PUT    | /api/posts/{id}      | Delete post (auth) - future     |
 
 ### 💬 Comments (future)
 
