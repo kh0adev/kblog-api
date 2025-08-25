@@ -1,4 +1,4 @@
-package com.kblog.application.services;
+package com.kblog.api.jwt;
 
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;

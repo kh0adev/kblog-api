@@ -5,7 +5,6 @@ import java.net.URI;
 import com.kblog.application.dtos.PostRequest;
 import com.kblog.application.dtos.PostResponse;
 import com.kblog.application.services.PostService;
-import com.kblog.domain.entities.Post;
 import com.kblog.domain.entities.User;
 import com.kblog.domain.enums.PostStatus;
 
@@ -29,7 +28,7 @@ import lombok.extern.slf4j.Slf4j;
 
 @Slf4j
 @RestController
-@RequestMapping("/api")
+@RequestMapping("/api/posts")
 public class PostController {
 
     private final PostService service;
@@ -38,39 +37,34 @@ public class PostController {
         this.service = service;
     }
 
-    @PostMapping("/posts")
+    @PostMapping
     private ResponseEntity<Void> createPosts(@RequestBody @Valid PostRequest request,
             UriComponentsBuilder ucb, @AuthenticationPrincipal User user) {
 
-        var post = Post.builder()
-                .title(request.title())
-                .content(request.content())
-                .author(user).build();
-
-        var savedPost = service.save(post);
+        var savedPost = service.save(request, user);
 
         URI locationOfNewPost = ucb
-                .path("post/{id}")
+                .path("api/post/{id}")
                 .buildAndExpand(savedPost.getId())
                 .toUri();
         return ResponseEntity.created(locationOfNewPost).build();
     }
 
     @GetMapping("/{requestedId}")
-    public ResponseEntity<Post> findById(@PathVariable Long requestedId) {
+    public ResponseEntity<PostResponse> findById(@PathVariable Long requestedId) {
         var post = service.findById(requestedId);
         return post.map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.notFound().build());
     }
 
-    @GetMapping("/posts")
+    @GetMapping
     public ResponseEntity<Page<PostResponse>> getPosts(@RequestParam(required = false) String title,
             Pageable pageable) {
         var posts = service.getPostsByStatus(title, PostStatus.APPROVED, pageable);
         return ResponseEntity.ok(posts);
     }
 
-    @GetMapping("/posts/own")
+    @GetMapping("/own")
     public ResponseEntity<Page<PostResponse>> getMyPosts(@RequestParam(required = false) String title,
             Pageable pageable, @AuthenticationPrincipal User user) {
         var posts = service.findMyPosts(title, user.getId(), pageable);
@@ -78,15 +72,27 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @GetMapping("/admin/posts/pending")
+    @PutMapping("{id}")
+    public ResponseEntity<?> updatePost(@PathVariable Long id,@RequestBody @Valid PostRequest request, @AuthenticationPrincipal User user) {
+        var post = service.updatePost(id, request, user);
+
+        if (post == null) {
+            return ResponseEntity.notFound().build();
+        }
+
+        return ResponseEntity.noContent().build();
+    }
+
+    @PreAuthorize("hasRole('ADMIN')")
+    @GetMapping("/pending")
     public ResponseEntity<Page<PostResponse>> getPendingPosts(@RequestParam(required = false) String title,
             Pageable pageable) {
-        var posts = service.getPostsByStatus(title, PostStatus.NEW, pageable);
+        var posts = service.getPendingPost(title, pageable);
         return ResponseEntity.ok(posts);
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/admin/posts/{id}/approve")
+    @PutMapping("{id}/approve")
     public ResponseEntity<?> approvePost(@PathVariable Long id) {
         var post = service.updatePostStatus(id, PostStatus.APPROVED);
 
@@ -98,7 +104,7 @@ public class PostController {
     }
 
     @PreAuthorize("hasRole('ADMIN')")
-    @PutMapping("/admin/posts/{id}/reject")
+    @PutMapping("{id}/reject")
     public ResponseEntity<?> rejectPost(@PathVariable Long id) {
         var post = service.updatePostStatus(id, PostStatus.REJECTED);
         if (post == null) {

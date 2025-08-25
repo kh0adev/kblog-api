@@ -1,6 +1,6 @@
 package com.kblog.api.config;
 
-import com.kblog.application.services.JwtAuthConverter;
+import com.kblog.api.jwt.JwtAuthConverter;
 import com.nimbusds.jose.JOSEException;
 import com.nimbusds.jose.jwk.JWKSet;
 import com.nimbusds.jose.jwk.RSAKey;
@@ -44,7 +44,7 @@ public class SecurityConfig {
     public SecurityFilterChain securityFilterChain(HttpSecurity httpSecurity) throws Exception {
         return httpSecurity
                 .authorizeHttpRequests(auth -> auth
-                        .requestMatchers("/auth/**", "/h2-console/**", "/dev/**").permitAll()
+                        .requestMatchers("api/auth/**", "/h2-console/**", "/dev/**").permitAll()
                         .requestMatchers(HttpMethod.OPTIONS, "/**")
                         .permitAll()
                         .anyRequest()

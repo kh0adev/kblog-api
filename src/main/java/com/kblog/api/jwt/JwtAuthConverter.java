@@ -1,4 +1,4 @@
-package com.kblog.application.services;
+package com.kblog.api.jwt;
 
 import java.util.Collection;
 import java.util.List;

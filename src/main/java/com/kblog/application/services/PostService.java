@@ -2,8 +2,10 @@ package com.kblog.application.services;
 
 import java.util.Optional;
 
+import com.kblog.application.dtos.PostRequest;
 import com.kblog.application.dtos.PostResponse;
 import com.kblog.domain.entities.Post;
+import com.kblog.domain.entities.User;
 import com.kblog.domain.enums.PostStatus;
 import com.kblog.infrastructure.repositories.PostRepository;
 import com.kblog.infrastructure.specs.PostSpecification;
@@ -12,6 +14,8 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
+
+import lombok.var;
 
 @Service
 public class PostService {
@@ -34,13 +38,27 @@ public class PostService {
         return posts.map(post -> toPostResponse(post));
     }
 
-    public Optional<Post> findById(Long id) {
-        return repository.findById(id);
+    public Optional<PostResponse> findById(Long id) {
+        var post = repository.findById(id);
+
+        if (post.isEmpty()) {
+            return Optional.empty();
+        }
+
+        return Optional.of(toPostResponse(post.get()));
     }
 
     public Page<PostResponse> getPostsByStatus(String title, PostStatus status, Pageable amount) {
         var spec = Specification.where(PostSpecification.titleContains(title))
                 .and(PostSpecification.statusIs(status));
+        var posts = repository.findAll(spec, amount);
+        var responsePage = posts.map(post -> toPostResponse(post));
+        return responsePage;
+    }
+
+    public Page<PostResponse> getPendingPost(String title, Pageable amount) {
+        var spec = Specification.where(PostSpecification.titleContains(title))
+                .and(PostSpecification.statusIs(PostStatus.NEW)).or(PostSpecification.statusIs(PostStatus.MODIFIED));
         var posts = repository.findAll(spec, amount);
         var responsePage = posts.map(post -> toPostResponse(post));
         return responsePage;
@@ -52,7 +70,12 @@ public class PostService {
         return repository.findAll(spec, amount);
     }
 
-    public Post save(Post post) {
+    public Post save(PostRequest request, User user) {
+
+        var post = Post.builder()
+                .title(request.title())
+                .content(request.content())
+                .author(user).build();
 
         post.setStatus(PostStatus.NEW);
 
@@ -69,6 +92,18 @@ public class PostService {
             p.setStatus(status);
             return repository.save(p);
         }).orElse(null);
+    }
+
+    public Post updatePost(Long id, PostRequest request, User user) {
+        var post = repository.findByIdAndAuthor_Id(id, user.getId());
+
+        if (post != null) {
+            post.setTitle(request.title());
+            post.setContent(request.content());
+            post.setStatus(PostStatus.MODIFIED);
+            return repository.save(post);
+        }
+        return null;
     }
 
     private PostResponse toPostResponse(Post post) {
